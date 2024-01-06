@@ -4,6 +4,8 @@ pragma solidity >=0.8.7;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+/// @dev This smart contract accepts certificate hashes, stores them, and validates certificates against their hashes.
+/// @dev Certificates are assumed to be encoded off-chain for efficiency and storage optimization.
 contract CertificateManager is Ownable {
     // Mapping to store certificate hashes along with their expiration dates
     mapping(bytes32 => uint256) private certificateHashes;
@@ -18,8 +20,9 @@ contract CertificateManager is Ownable {
     function registerCertificate(
         bytes32 certificateHash,
         uint256 expDate
-    ) external onlyOwner {
+    ) external onlyOwner returns (bool) {
         certificateHashes[certificateHash] = expDate;
+        return true;
     }
 
     /// @notice Suspends or removes a certificate
